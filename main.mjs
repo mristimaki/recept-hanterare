@@ -64,5 +64,53 @@ function showRecipeMenu() {
     console.log("");
 }
 
-// Visa menyn när programmetstartar
+// Visa menyn när programmet startar
 showRecipeMenu();
+
+// HUVUDLOOP
+// VARFÖR EN WHILE-LOOP? För att programmet ska fortsätta köras
+// tills användaren aktivt väljer att avsluta
+let keepRunning = true; // En "flagga" som styr om loopen ska fortsätta
+
+while (keepRunning) {
+    // Läs användarens val från terminalen
+    const userChoice = readline.question("Vad vill du göra?");
+    // VARFÖR Number.parseInt? readline.question returnerar alltid en sträng
+    // vi behöver konvertera "1" (sträng) till 1 (nummer) för att kunna jämföra i switch
+    const choice = Number.parseInt(userChoice);
+
+    // SWITCH-SATS - Ett sätt att hantera många olika val
+    // VARFÖR SWITCH istället för if-else? Mer läsbart när vi har många alternativ
+    // Varje case testar om choice === det värdet
+    switch (choice) {
+        case 1: {
+            // VARFÖR måsvingar {}? Skapar ett "block-scope" så variabler inte läcker ut
+            createRecepe();
+            break; // VIKTIGT! Break avslutar switchen, annars fortsätter koden till nästa case
+        }
+        case 2: {
+            showRecipes();
+            break;
+        }
+        case 3: {
+            deleteRecipe();
+            break;
+        }
+        case 4: {
+            updateRecipe();
+            break;
+        }
+        case 5: {
+            keepRunning = false; // Ändrar "flaggan" så while-loopen avslutas
+            break;
+        }
+        default:
+            // DEFAULT körs om inget case matchar (t.ex. om användaren skriver 99)
+            console.log("Det valet finns inte, försök igen!");
+    }
+
+    console.log(""); // Tom rad för bättre läsbarhet i terminalen
+}
+
+// Detta körs EFTER while-loopen (när keepRunning blir false)
+console.log("Applikationen avslutas..");
